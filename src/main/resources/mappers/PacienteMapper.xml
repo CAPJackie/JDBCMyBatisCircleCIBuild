@@ -14,9 +14,53 @@
     
        
     <select parameterType="map" id="loadPacientes" resultMap="PacienteResult">
+        SELECT
+            p.id,
+            p.tipo_id,
+            p.nombre,
+            p.fecha_nacimiento,
 
+
+            e.nombre,
+            e.nit,
+
+            c.idCONSULTAS,
+            c.fecha_y_hora,
+            c.resumen,
+            c.costo
+
+
+        FROM  CM_PACIENTES as p 
+              left join CM_CONSULTAS as c 
+              on p.id=c.PACIENTES_id left join CM_EPS as e on p.eps_nit=e.nit
     </select>
     
+    
+    
+    
+    
+    
+    
 
+    <resultMap type='Paciente' id='pacienterm'>
+        <id property='id' column='id'/>
+        <id property='tipoId' column='tipo_id'/>
+        <result property='nombre' column='nombre'/>
+        <result property='fechaNacimiento' column='fecha_nacimi'/>  
+        <collection property="consultas" ofType="CM_CONSULTAS"></collection>
+        <association property="eps" javaType="CM_EPS"> </association>      
+    </resultMap>
+
+    <resultMap type='Eps' id='epsrm'>
+        <id property='nit' column='nit'/>
+        <result property='nombre' column='nombre'/>
+    </resultMap>
+
+    <resultMap type='DetalleDos' id='DetalleResult'>
+        <id property='propiedadr' column='COLUMNAR'/>
+        <result property='propiedads' column='COLUMNAS'/>
+        <result property='propiedadt' column='COLUMNAT'/>        
+    </resultMap>
+    
                 
 </mapper>
