@@ -6,9 +6,12 @@
 package edu.eci.pdsw.samples.simpleview;
 
 import edu.eci.pdsw.persistence.impl.mappers.PacienteMapper;
+import edu.eci.pdsw.samples.entities.Consulta;
+import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.ibatis.io.Resources;
@@ -51,16 +54,28 @@ public class MyBATISExample {
         SqlSessionFactory sessionfact = getSqlSessionFactory();
         SqlSession sqlss = sessionfact.openSession();
         PacienteMapper pmapper=sqlss.getMapper(PacienteMapper.class);
-
-       // List<Paciente> pacientes=pmapper.loadPacientes();
-
-        Paciente paciente = pmapper.loadPacienteById(1026585441,"CC");
         
-        System.out.println(paciente);
+        Eps eps = new Eps("Compensar", "8456986");
+        Paciente p = new Paciente(1019138849, "CC", "Juan David Ramirez Mendoza", new Date(1998), eps);
+        pmapper.insertarPaciente(p);
+        
+        Consulta c = new Consulta(new Date(17,04,12),"Jaquecas muy fuertes, sintomas de migraña", 56000);
+        pmapper.insertarConsulta(c, 1019138849, "CC", c.getCosto());
+
+        //List<Paciente> pacientes=pmapper.loadPacientes();
+       
+       
+        /*Eps eps = new Eps("Compensar", "8456986");
+        Paciente p = new Paciente(1019138849, "CC", "Juan David Ramirez Mendoza", new Date(1998), eps);
+        pmapper.insertarPaciente(p);
+
+        Paciente paciente = pmapper.loadPacienteById(1019138849,"CC");
+        
+        System.out.println(paciente);*/
         /*for(int i= 0; i<pacientes.size();i++){
-            System.out.println(pacientes.get(i));
-        }*/
-    }
+            System.out.println(pacientes.get(i));*/
+        }     
+    
 
     /**
      * Registra un nuevo paciente y sus respectivas consultas (si existiesen).

@@ -6,7 +6,16 @@
   
 <mapper namespace="edu.eci.pdsw.persistence.impl.mappers.PacienteMapper">
     
-
+    
+    <insert id="insertarConsulta" useGeneratedKeys="true" keyProperty="con.id">
+        INSERT INTO CM_CONSULTAS(idCONSULTAS, fecha_y_hora, resumen, PACIENTES_id, PACIENTES_tipo_id, costo)
+        VALUES (#{con.id}, #{con.fechayHora}, #{con.resumen}, #{idp}, #{tipoidp}, #{costoc})
+    </insert>
+    
+    <insert id="insertarPaciente">
+        INSERT INTO CM_PACIENTES(id, tipo_id, nombre, fecha_nacimiento, EPS_nit)
+        VALUES (#{paciente.id}, #{paciente.tipoId}, #{paciente.nombre}, #{paciente.fechaNacimiento}, #{paciente.eps.nit})
+    </insert>
         
     <select parameterType="map" id="loadPacienteById" resultMap="PacienteResult">
         SELECT
@@ -23,10 +32,10 @@
        
     <select parameterType="map" id="loadPacientes" resultMap="PacienteResult">
         SELECT
-            p.id as pacientes_id,
-            p.tipo_id as pacientes_tipo_id,
-            p.nombre as pacientes_nombre,
-            p.fecha_nacimiento as pacientes_fecha_nacimiento,
+            p.id,
+            p.tipo_id,
+            p.nombre,
+            p.fecha_nacimiento,
 
 
             e.nombre as eps_nombre,
@@ -51,7 +60,7 @@
     
 
     <resultMap id='PacienteResult' type='Paciente'>
-        <id property='id' column='id'/>
+        <id property='id' column='id' />
         <id property='tipoId' column='tipo_id'/>
         <result property='nombre' column='nombre'/>
         <result property='fechaNacimiento' column='fecha_nacimiento'/>
