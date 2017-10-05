@@ -6,6 +6,11 @@
   
 <mapper namespace="edu.eci.pdsw.persistence.impl.mappers.PacienteMapper">
     
+    <update id="actualizarPaciente">
+        UPDATE CM_PACIENTES
+        SET nombre = #{paciente.nombre}, fecha_nacimiento = #{paciente.fechaNacimiento}, EPS_nit = #{paciente.eps.nit} 
+        WHERE id = #{paciente.id} AND tipo_id = #{paciente.tipoId}
+    </update>
     
     <insert id="insertarConsulta" useGeneratedKeys="true" keyProperty="con.id">
         INSERT INTO CM_CONSULTAS(idCONSULTAS, fecha_y_hora, resumen, PACIENTES_id, PACIENTES_tipo_id, costo)

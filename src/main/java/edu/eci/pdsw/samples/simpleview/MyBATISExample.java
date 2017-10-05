@@ -57,9 +57,13 @@ public class MyBATISExample {
         
         
         Eps eps = new Eps("SaludTotal", "8456986");
-        Paciente p = new Paciente(1019138859, "CC", "Juan David Ramirez Mendoza", new Date(1998,03,16), eps);
+        Paciente p = new Paciente(1019138864, "CC", "Juan David Ramirez Mendoza", new Date(1998,03,16), eps);
         
         registrarNuevoPaciente(pmapper, p);
+        
+        Paciente p1 = new Paciente(1019138864, "CC", "Jackie Chan", new Date(98,04,12), eps);
+        
+        actualizarPaciente(pmapper, p1);
         
         sqlss.commit();
         /**/
@@ -103,7 +107,7 @@ public class MyBATISExample {
     * @param pmap mapper a traves del cual se hará la operacion
     * @param p paciente a ser registrado
     */
-   public void actualizarPaciente(PacienteMapper pmap, Paciente p){
+   public static void actualizarPaciente(PacienteMapper pmap, Paciente p){
        pmap.actualizarPaciente(p);
    }
     
