@@ -59,9 +59,9 @@ public class MyBATISExample {
         Eps eps = new Eps("SaludTotal", "8456986");
         Paciente p = new Paciente(1019138864, "CC", "Juan David Ramirez Mendoza", new Date(1998,03,16), eps);
         
-        registrarNuevoPaciente(pmapper, p);
+        //registrarNuevoPaciente(pmapper, p);
         
-        Paciente p1 = new Paciente(1019138864, "CC", "Jackie Chan", new Date(98,04,12), eps);
+        Paciente p1 = new Paciente(1019138864, "CC", "Jackie Chan x2", new Date(98,04,13), eps);
         
         actualizarPaciente(pmapper, p1);
         
