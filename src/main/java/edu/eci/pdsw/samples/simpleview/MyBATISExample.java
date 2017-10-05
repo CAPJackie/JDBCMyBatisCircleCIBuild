@@ -10,6 +10,7 @@ import edu.eci.pdsw.samples.entities.Paciente;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -47,7 +48,18 @@ public class MyBATISExample {
      * @throws SQLException 
      */
     public static void main(String args[]) throws SQLException {
+        SqlSessionFactory sessionfact = getSqlSessionFactory();
+        SqlSession sqlss = sessionfact.openSession();
+        PacienteMapper pmapper=sqlss.getMapper(PacienteMapper.class);
+
+       // List<Paciente> pacientes=pmapper.loadPacientes();
+
+        Paciente paciente = pmapper.loadPacienteById(1026585441,"CC");
         
+        System.out.println(paciente);
+        /*for(int i= 0; i<pacientes.size();i++){
+            System.out.println(pacientes.get(i));
+        }*/
     }
 
     /**

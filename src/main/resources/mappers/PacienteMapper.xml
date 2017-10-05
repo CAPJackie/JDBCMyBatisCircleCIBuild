@@ -8,26 +8,34 @@
     
 
         
-    <select parameterType="map" id="loadPacienteByID" resultMap="PacienteResult">
-
+    <select parameterType="map" id="loadPacienteById" resultMap="PacienteResult">
+        SELECT
+            id,
+            tipo_id,
+            nombre,
+            fecha_nacimiento
+            
+        FROM CM_PACIENTES
+        WHERE #{idp} = id AND #{tipoidp} = tipo_id
+        
     </select>
     
        
     <select parameterType="map" id="loadPacientes" resultMap="PacienteResult">
         SELECT
-            p.id,
-            p.tipo_id,
-            p.nombre,
-            p.fecha_nacimiento,
+            p.id as pacientes_id,
+            p.tipo_id as pacientes_tipo_id,
+            p.nombre as pacientes_nombre,
+            p.fecha_nacimiento as pacientes_fecha_nacimiento,
 
 
-            e.nombre,
-            e.nit,
+            e.nombre as eps_nombre,
+            e.nit as eps_nit,
 
-            c.idCONSULTAS,
-            c.fecha_y_hora,
-            c.resumen,
-            c.costo
+            c.idCONSULTAS as consultas_idCONSULTAS,
+            c.fecha_y_hora as consultas_fecha_y_hora,
+            c.resumen as consultas_resumen,
+            c.costo as consultas_costo
 
 
         FROM  CM_PACIENTES as p 
@@ -42,24 +50,26 @@
     
     
 
-    <resultMap type='Paciente' id='pacienterm'>
+    <resultMap id='PacienteResult' type='Paciente'>
         <id property='id' column='id'/>
         <id property='tipoId' column='tipo_id'/>
         <result property='nombre' column='nombre'/>
-        <result property='fechaNacimiento' column='fecha_nacimi'/>  
-        <collection property="consultas" ofType="CM_CONSULTAS"></collection>
-        <association property="eps" javaType="CM_EPS"> </association>      
+        <result property='fechaNacimiento' column='fecha_nacimiento'/>
+        <association property="eps" javaType="Eps" resultMap='EpsResult' columnPrefix='eps_'></association>  
+        <collection property="consultas" ofType="Consulta" resultMap='ConsultaResult' columnPrefix='consultas_'></collection>
+            
     </resultMap>
 
-    <resultMap type='Eps' id='epsrm'>
+    <resultMap type='Eps' id='EpsResult'>
         <id property='nit' column='nit'/>
         <result property='nombre' column='nombre'/>
     </resultMap>
 
-    <resultMap type='DetalleDos' id='DetalleResult'>
-        <id property='propiedadr' column='COLUMNAR'/>
-        <result property='propiedads' column='COLUMNAS'/>
-        <result property='propiedadt' column='COLUMNAT'/>        
+    <resultMap type='Consulta' id='ConsultaResult'>
+        <id property='id' column='idCONSULTAS'/>
+        <result property='fechayHora' column='fecha_y_hora'/>
+        <result property='resumen' column='resumen'/>
+        <result property='costo' column='costo'/>  
     </resultMap>
     
                 
