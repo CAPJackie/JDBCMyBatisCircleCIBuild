@@ -3,6 +3,7 @@ package edu.eci.pdsw.persistence.impl.mappers;
 
 
 import edu.eci.pdsw.samples.entities.Consulta;
+import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
 import java.util.Date;
 
@@ -24,5 +25,7 @@ public interface PacienteMapper {
     public void insertarConsulta(@Param("con") Consulta con,@Param("idp") int idPaciente,@Param("tipoidp") String tipoid,@Param("costoc") long costoconsulta);
     
     public void actualizarPaciente(@Param("paciente") Paciente p);
+    
+    
 
 }

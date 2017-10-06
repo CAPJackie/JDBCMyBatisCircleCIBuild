@@ -5,6 +5,7 @@
  */
 package edu.eci.pdsw.samples.simpleview;
 
+import edu.eci.pdsw.persistence.impl.mappers.EpsMapper;
 import edu.eci.pdsw.persistence.impl.mappers.PacienteMapper;
 import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Eps;
@@ -13,7 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -55,31 +58,26 @@ public class MyBATISExample {
         SqlSession sqlss = sessionfact.openSession();
         PacienteMapper pmapper=sqlss.getMapper(PacienteMapper.class);
         
+        EpsMapper pm = sqlss.getMapper(EpsMapper.class);
         
-        Eps eps = new Eps("SaludTotal", "8456986");
-        Paciente p = new Paciente(1019138864, "CC", "Juan David Ramirez Mendoza", new Date(1998,03,16), eps);
+        /*Eps eps = new Eps("SaludTotal", "8456986");
+        Paciente p = new Paciente(113, "CC", "Jackie", new Date(1998,03,16), eps);
         
-        //registrarNuevoPaciente(pmapper, p);
+        registrarNuevoPaciente(pmapper, p);
         
-        Paciente p1 = new Paciente(1019138864, "CC", "Jackie Chan x2", new Date(98,04,13), eps);
+        Paciente p1 = new Paciente(113, "CC", "Lee Sang-hyeok", new Date(98,04,13), eps);
         
-        actualizarPaciente(pmapper, p1);
+        p1.setConsultas(p.getConsultas());
+        
+        actualizarPaciente(pmapper, p1);*/
+        
+        List<Eps> eps= pm.loadAllEPS();
+        for(int i=0; i< eps.size(); i++){
+            System.out.println("nit: "+eps.get(i).getNit()+" name: "+eps.get(i).getNombre());
+        }
         
         sqlss.commit();
-        /**/
-
-        //List<Paciente> pacientes=pmapper.loadPacientes();
-       
-       
-        /*Eps eps = new Eps("Compensar", "8456986");
-        Paciente p = new Paciente(1019138849, "CC", "Juan David Ramirez Mendoza", new Date(1998), eps);
-        pmapper.insertarPaciente(p);
-
-        Paciente paciente = pmapper.loadPacienteById(1019138849,"CC");
         
-        System.out.println(paciente);*/
-        /*for(int i= 0; i<pacientes.size();i++){
-            System.out.println(pacientes.get(i));*/
         }     
     
 
@@ -95,9 +93,14 @@ public class MyBATISExample {
         Consulta c2 = new Consulta(new Date(2018,01,05),"Cancer", 100000);
         Consulta c3 = new Consulta(new Date(2018,02,20),"Ya puedo sentir la demencia que se esta viniendo", 1234565);
         
-        pmap.insertarConsulta(c, 1019138859, "CC", c.getCosto());
-        pmap.insertarConsulta(c2, 1019138859, "CC", c2.getCosto());
-        pmap.insertarConsulta(c3, 1019138859, "CC", c3.getCosto());
+        pmap.insertarConsulta(c, 113, "CC", c.getCosto());
+        pmap.insertarConsulta(c2, 113, "CC", c2.getCosto());
+        pmap.insertarConsulta(c3, 113, "CC", c3.getCosto());
+        
+        p.getConsultas().add(c);
+        p.getConsultas().add(c2);
+        p.getConsultas().add(c3);
+        
     }
     
     
@@ -109,6 +112,14 @@ public class MyBATISExample {
     */
    public static void actualizarPaciente(PacienteMapper pmap, Paciente p){
        pmap.actualizarPaciente(p);
+       
+       Iterator<Consulta> consultas = p.getConsultas().iterator();
+       while(consultas.hasNext()){
+           Consulta c = consultas.next();
+           if(c.getId()==0){
+               pmap.insertarConsulta(c, p.getId(), p.getTipoId(), c.getCosto());
+           }
+       }
    }
     
 }
