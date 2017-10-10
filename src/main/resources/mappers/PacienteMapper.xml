@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="edu.eci.pdsw.persistence.impl.mappers.PacienteMapper">
+    
+    <update id="actualizarPaciente">
+        UPDATE CM_PACIENTES
+        SET nombre = #{paciente.nombre}, fecha_nacimiento = #{paciente.fechaNacimiento}, EPS_nit = #{paciente.eps.nit} 
+        WHERE id = #{paciente.id} AND tipo_id = #{paciente.tipoId}
+    </update>
+    
+    <insert id="insertarConsulta" useGeneratedKeys="true" keyProperty="con.id">
+        INSERT INTO CM_CONSULTAS(idCONSULTAS, fecha_y_hora, resumen, PACIENTES_id, PACIENTES_tipo_id, costo)
+        VALUES (#{con.id}, #{con.fechayHora}, #{con.resumen}, #{idp}, #{tipoidp}, #{costoc})
+    </insert>
+    
+    <insert id="insertarPaciente">
+        INSERT INTO CM_PACIENTES(id, tipo_id, nombre, fecha_nacimiento, EPS_nit)
+        VALUES (#{paciente.id}, #{paciente.tipoId}, #{paciente.nombre}, #{paciente.fechaNacimiento}, #{paciente.eps.nit})
+    </insert>
+        
+    <select parameterType="map" id="loadPacienteById" resultMap="PacienteResult">
+        SELECT
+            id,
+            tipo_id,
+            nombre,
+            fecha_nacimiento
+            
+        FROM CM_PACIENTES
+        WHERE #{idp} = id AND #{tipoidp} = tipo_id
+        
+    </select>
+    
+       
+    <select parameterType="map" id="loadPacientes" resultMap="PacienteResult">
+        SELECT
+            p.id,
+            p.tipo_id,
+            p.nombre,
+            p.fecha_nacimiento,
+
+
+            e.nombre as eps_nombre,
+            e.nit as eps_nit,
+
+            c.idCONSULTAS as consultas_idCONSULTAS,
+            c.fecha_y_hora as consultas_fecha_y_hora,
+            c.resumen as consultas_resumen,
+            c.costo as consultas_costo
+
+
+        FROM  CM_PACIENTES as p 
+              left join CM_CONSULTAS as c 
+              on p.id=c.PACIENTES_id left join CM_EPS as e on p.eps_nit=e.nit
+    </select>
+    
+    
+    
+    
+    
+    
+    
+
+    <resultMap id='PacienteResult' type='Paciente'>
+        <id property='id' column='id' />
+        <id property='tipoId' column='tipo_id'/>
+        <result property='nombre' column='nombre'/>
+        <result property='fechaNacimiento' column='fecha_nacimiento'/>
+        <association property="eps" javaType="Eps" resultMap='EpsResult' columnPrefix='eps_'></association>  
+        <collection property="consultas" ofType="Consulta" resultMap='ConsultaResult' columnPrefix='consultas_'></collection>
+            
+    </resultMap>
+
+    <resultMap type='Eps' id='EpsResult'>
+        <id property='nit' column='nit'/>
+        <result property='nombre' column='nombre'/>
+    </resultMap>
+
+    <resultMap type='Consulta' id='ConsultaResult'>
+        <id property='id' column='idCONSULTAS'/>
+        <result property='fechayHora' column='fecha_y_hora'/>
+        <result property='resumen' column='resumen'/>
+        <result property='costo' column='costo'/>  
+    </resultMap>
+    
+                
+</mapper>
