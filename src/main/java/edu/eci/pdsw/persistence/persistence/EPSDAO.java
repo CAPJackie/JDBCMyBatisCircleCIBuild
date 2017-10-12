@@ -7,6 +7,7 @@ package edu.eci.pdsw.persistence.persistence;
 
 import edu.eci.pdsw.samples.entities.Eps;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  *

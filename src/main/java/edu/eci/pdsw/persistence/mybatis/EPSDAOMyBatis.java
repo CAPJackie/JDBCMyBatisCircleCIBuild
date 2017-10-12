@@ -10,6 +10,7 @@ import edu.eci.pdsw.persistence.impl.mappers.EpsMapper;
 import edu.eci.pdsw.persistence.persistence.EPSDAO;
 import edu.eci.pdsw.samples.entities.Eps;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -21,7 +22,7 @@ public class EPSDAOMyBatis implements EPSDAO{
     EpsMapper epsmap;
 
     @Override
-    public List<Eps> loadAll() {
+    public List<Eps> loadAll(){
         return epsmap.loadAllEPS();
     }
         

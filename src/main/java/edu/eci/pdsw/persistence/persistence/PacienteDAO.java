@@ -6,8 +6,8 @@
 package edu.eci.pdsw.persistence.persistence;
 
 import edu.eci.pdsw.samples.entities.Paciente;
-import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -18,9 +18,9 @@ public interface PacienteDAO {
     
     public Paciente load();
     
-    public Paciente loadByID(int id, String tipoId)throws ExcepcionServiciosPacientes;
+    public Paciente loadByID(int id, String tipoId)throws PersistenceException;
     
     public void save();
     
-    public void update(Paciente paciente);
+    public void update(Paciente paciente) throws PersistenceException;
 }

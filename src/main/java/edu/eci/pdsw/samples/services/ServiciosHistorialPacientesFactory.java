@@ -5,15 +5,13 @@
  */
 package edu.eci.pdsw.samples.services;
 
-import com.google.inject.AbstractModule;
 import static com.google.inject.Guice.createInjector;
 import com.google.inject.Injector;
-import edu.eci.pdsw.persistence.impl.mappers.EpsMapper;
 import edu.eci.pdsw.persistence.mybatis.EPSDAOMyBatis;
+import edu.eci.pdsw.persistence.mybatis.PacienteDAOMyBatis;
 import edu.eci.pdsw.persistence.persistence.EPSDAO;
 import edu.eci.pdsw.persistence.persistence.PacienteDAO;
 import edu.eci.pdsw.samples.services.impl.ServiciosPacientesImpl;
-import edu.eci.pdsw.samples.services.impl.ServiciosPacientesMock;
 import org.mybatis.guice.XMLMyBatisModule;
 import org.mybatis.guice.datasource.helper.JdbcHelper;
 
@@ -39,8 +37,8 @@ public class ServiciosHistorialPacientesFactory {
                 install(JdbcHelper.MySQL);              
                 setClassPathResource("mybatis-config.xml");
                 bind(ServiciosPacientes.class).to(ServiciosPacientesImpl.class);
-                bind(PacienteDAO.class).to(PacienteDAOMyBATIS.class);                
-                bind(EpsDAO.class).to(EPSDAOMyBatis.class);
+                bind(PacienteDAO.class).to(PacienteDAOMyBatis.class);                
+                bind(EPSDAO.class).to(EPSDAOMyBatis.class);
                 
             }
 
@@ -54,8 +52,8 @@ public class ServiciosHistorialPacientesFactory {
                 install(JdbcHelper.PostgreSQL);
                 setClassPathResource("mybatis-config-h2.xml");
                 bind(ServiciosPacientes.class).to(ServiciosPacientesImpl.class);
-                bind(PacienteDAO.class).to(PacienteDAOMyBATIS.class);                
-                bind(EpsDAO.class).to(EPSDAOMyBatis.class);
+                bind(PacienteDAO.class).to(PacienteDAOMyBatis.class);                
+                bind(EPSDAO.class).to(EPSDAOMyBatis.class);
             }
 
         }

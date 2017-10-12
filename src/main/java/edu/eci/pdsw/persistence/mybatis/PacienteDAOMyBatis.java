@@ -11,6 +11,7 @@ import edu.eci.pdsw.persistence.persistence.PacienteDAO;
 import edu.eci.pdsw.samples.entities.Paciente;
 import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -33,12 +34,12 @@ public class PacienteDAOMyBatis implements PacienteDAO{
     }
 
     @Override
-    public Paciente loadByID(int id, String tipoId) throws ExcepcionServiciosPacientes{
-        Paciente paciente = pacientemap.loadPacienteById(id, tipoId);
-        if (paciente == null) {
-            throw new ExcepcionServiciosPacientes("Paciente " + id + " no esta registrado");
-        } else {
+    public Paciente loadByID(int id, String tipoId) throws PersistenceException{
+        try{
+            Paciente paciente = pacientemap.loadPacienteById(id, tipoId);
             return paciente;
+        }catch(Exception e){
+            throw new PersistenceException("Paciente " + id + " no esta registrado",e);
         }
     }
 
@@ -48,8 +49,12 @@ public class PacienteDAOMyBatis implements PacienteDAO{
     }
 
     @Override
-    public void update(Paciente p){
-        pacientemap.actualizarPaciente(p);
+    public void update(Paciente p) throws PersistenceException{
+        try{
+            pacientemap.actualizarPaciente(p);
+        }catch(Exception e){
+            throw new PersistenceException("Paciente " + p.getId() + " no se puede actualizar porque no esta registrado",e);
+        }
     }
     
 }
