@@ -23,6 +23,9 @@ public class ServiciosPacientesImpl implements ServiciosPacientes{
     
     @Inject
     PacienteDAO pacDAO;
+    
+    @Inject
+    EPSDAO epsDAO;
 
     @Override
     public Paciente consultarPaciente(int idPaciente, String tipoid) throws ExcepcionServiciosPacientes {

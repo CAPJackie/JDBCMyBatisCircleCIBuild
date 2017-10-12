@@ -38,9 +38,9 @@ public class ServiciosHistorialPacientesFactory {
             protected void initialize() {
                 install(JdbcHelper.MySQL);              
                 setClassPathResource("mybatis-config.xml");
-                bind(PacienteDAO.class).to(ServiciosPacientesImpl.class);
-                bind(EPSDAO.class).to(ServiciosPacientesImpl.class);                
-                bind(EpsMapper.class).to(EPSDAOMyBatis.class);
+                bind(ServiciosPacientes.class).to(ServiciosPacientesImpl.class);
+                bind(PacienteDAO.class).to(PacienteDAOMyBATIS.class);                
+                bind(EpsDAO.class).to(EPSDAOMyBatis.class);
                 
             }
 
@@ -53,9 +53,9 @@ public class ServiciosHistorialPacientesFactory {
             protected void initialize() {
                 install(JdbcHelper.PostgreSQL);
                 setClassPathResource("mybatis-config-h2.xml");
-                bind(ServiciosPacientes.class).to(ServiciosPacientesGuiceMybatis.class);
-                bind(DaoEps.class).to(MyBatisDAOEps.class);                
-                bind(DaoPaciente.class).to(MyBatisDAOPaciente.class);
+                bind(ServiciosPacientes.class).to(ServiciosPacientesImpl.class);
+                bind(PacienteDAO.class).to(PacienteDAOMyBATIS.class);                
+                bind(EpsDAO.class).to(EPSDAOMyBatis.class);
             }
 
         }
