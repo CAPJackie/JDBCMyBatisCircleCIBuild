@@ -7,6 +7,7 @@ package edu.eci.pdsw.samples.services;
 
 import static com.google.inject.Guice.createInjector;
 import com.google.inject.Injector;
+import edu.eci.pdsw.persistence.impl.mappers.PacienteMapper;
 import edu.eci.pdsw.persistence.mybatis.EPSDAOMyBatis;
 import edu.eci.pdsw.persistence.mybatis.PacienteDAOMyBatis;
 import edu.eci.pdsw.persistence.persistence.EPSDAO;
@@ -39,7 +40,6 @@ public class ServiciosHistorialPacientesFactory {
                 bind(ServiciosPacientes.class).to(ServiciosPacientesImpl.class);
                 bind(PacienteDAO.class).to(PacienteDAOMyBatis.class);                
                 bind(EPSDAO.class).to(EPSDAOMyBatis.class);
-                
             }
 
         }

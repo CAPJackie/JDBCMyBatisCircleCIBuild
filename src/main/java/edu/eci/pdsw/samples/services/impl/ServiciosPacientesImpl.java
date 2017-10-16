@@ -47,15 +47,25 @@ public class ServiciosPacientesImpl implements ServiciosPacientes{
         cargarDatosEstaticos(pacientes);
     }
 
+    
+    @Transactional
     @Override
     public Paciente consultarPaciente(int idPaciente, String tipoid) throws ExcepcionServiciosPacientes {
-        Paciente paciente = pacientes.get(new Tupla<>(idPaciente, tipoid));
+        
+        try{
+            Paciente p = pacDAO.loadByID(idPaciente, tipoid);
+            return p;
+        }catch(PersistenceException e){
+            throw new PersistenceException(e.getMessage());
+        }
+        
+        
+        /*Paciente paciente = pacientes.get(new Tupla<>(idPaciente, tipoid));
         if (paciente == null) {
             throw new ExcepcionServiciosPacientes("Paciente " + idPaciente + " no esta registrado");
         } else {
             return paciente;
-        }
-
+        }*/
     }
 
     @Override
@@ -72,15 +82,8 @@ public class ServiciosPacientesImpl implements ServiciosPacientes{
         //System.out.println("reg:"+new Tupla<>(paciente.getId(), paciente.getTipoId()));
     }
 
-    @Transactional
     @Override
     public void agregarConsultaPaciente(int idPaciente, String tipoId, Consulta consulta) throws ExcepcionServiciosPacientes {
-        
-        try{
-            pacDAO.save();
-        }catch(PersistenceException ex){
-            Logger.getLogger(ServiciosPacientesImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
         //System.out.println("add:"+new Tupla<>(idPaciente, tipoid));
         Paciente paciente = pacientes.get(new Tupla<>(idPaciente, tipoId));
         if (paciente != null) {
@@ -136,9 +139,11 @@ public class ServiciosPacientesImpl implements ServiciosPacientes{
         return temp;
     }
 
+    @Transactional
     @Override
     public List<Eps> obtenerEPSsRegistradas() throws ExcepcionServiciosPacientes {
-        return epsregistradas;
+        return epsDAO.loadAll();
+        //return epsregistradas;
     }
     
     
@@ -197,11 +202,51 @@ public class ServiciosPacientesImpl implements ServiciosPacientes{
             agregarConsultaPaciente(7, "CC", consulta9);
 
         } catch (ExcepcionServiciosPacientes ex) {
-            Logger.getLogger(ServiciosPacientesMock.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiciosPacientesImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
     
+}
+
+class Tupla<A, B> {
+
+    A a;
+    B b;
+
+    public Tupla(A a, B b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    public A getA() {
+        return a;
+    }
+
+    public B getB() {
+        return b;
+    }
+
+    @Override
+    public int hashCode() {
+        return a.hashCode() + b.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Tupla<?, ?>) {
+            return ((Tupla<?, ?>) obj).getA().equals(this.getA())
+                    && ((Tupla<?, ?>) obj).getB().equals(this.getB());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Touple:(" + a.toString() + "," + b.toString() + ")";
+    }
+
 }
 
 

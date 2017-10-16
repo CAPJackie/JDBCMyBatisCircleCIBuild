@@ -8,9 +8,11 @@ package tests;
 import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Paciente;
 import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
+import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
-import edu.eci.pdsw.samples.services.impl.ServiciosPacientesMock;
+import edu.eci.pdsw.samples.services.impl.ServiciosPacientesImpl;
 import java.util.Date;
+import javax.persistence.PersistenceException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -54,43 +56,26 @@ import static org.junit.Assert.*;
 
 public class ServiciosPacientesTest {
 
-
+    private ServiciosPacientes factory;
     public ServiciosPacientesTest() {
+        factory = ServiciosHistorialPacientesFactory.getInstance().getTestingServiciosPaciente();
     }
     
     @Before
     public void setUp() {
     }
     
-    @Test
-    public void deberiaConsultarUnPacienteExistente() throws ExcepcionServiciosPacientes{
-        ServiciosPacientes servPac = new ServiciosPacientesMock();
-        Paciente pac1 = new Paciente();
-        pac1.setId(10203040);
-        pac1.setTipoId("CC");
-        servPac.registrarNuevoPaciente(pac1);
-        assertEquals(pac1, servPac.consultarPaciente(10203040, "CC"));
-        
-    }
-    @Test
-    public void noDeberiaConsultarUnPacienteSiNoExiste(){
-        ServiciosPacientes servPac = new ServiciosPacientesMock();
-        try{
-            servPac.consultarPaciente(499, "CC");
-            fail("Ha fallado la prueba");
-        }catch(ExcepcionServiciosPacientes e){
-            assertEquals("Paciente 499 no esta registrado",e.getMessage());
-        }
-    }
     
     @Test
-    public void noDeberiaAgregarUnaConsultaCuandoElPacienteNoExiste() throws ExcepcionServiciosPacientes{
-        ServiciosPacientes servPac = new ServiciosPacientesMock();
+    public void noDeberiaAgregarUnaConsultaCuandoElPacienteNoExisteEnLaBaseDeDatos() throws ExcepcionServiciosPacientes{
+        Paciente p = new Paciente();
+        p.setId(10000);
+        p.setTipoId("CC");
         try{
-            servPac.agregarConsultaPaciente(10000, "CC", new Consulta(new Date("2017/09/21 12:22 PM"), "Chequeo general", 23000 ));
+            factory.agregarConsultaPaciente(p.getId(), p.getTipoId(), new Consulta(new Date("2017/09/21 12:22 PM"), "Chequeo general", 23000 ));
             fail("Ha fallado la prueba");
         }catch(ExcepcionServiciosPacientes e){
-            assertEquals("Paciente 10000 no esta registrado",e.getMessage());
+            assertEquals("Paciente "+p.getId()+" no esta registrado" , e.getMessage());
         }
     }
     
@@ -98,12 +83,11 @@ public class ServiciosPacientesTest {
     @Test
     public void deberiaAgregarUnaConsultaAlPaciente() throws ExcepcionServiciosPacientes{
         Paciente pac1 = new Paciente();
-        pac1.setId(10203040);
+        pac1.setId(10203041);
         pac1.setTipoId("CC");
         Consulta consulta = new Consulta(new Date("2017/09/21 12:22 PM"), "Chequeo general", 23000 );
-        ServiciosPacientes servPac = new ServiciosPacientesMock();
-        servPac.registrarNuevoPaciente(pac1);
-        servPac.agregarConsultaPaciente(10203040, "CC", consulta);       
+        factory.registrarNuevoPaciente(pac1);
+        factory.agregarConsultaPaciente(pac1.getId(), pac1.getTipoId(), consulta);       
         assertEquals(1, pac1.getConsultas().size());
     }
     
@@ -112,13 +96,12 @@ public class ServiciosPacientesTest {
     //CF1:
     @Test
     public void testRegistrarNuevoPaciente() throws ExcepcionServiciosPacientes{
-        ServiciosPacientes servicioPacientes= new ServiciosPacientesMock();
-        int sizeClientes= servicioPacientes.consultarPacientes().size();
+        int sizeClientes= factory.consultarPacientes().size();
         Paciente pac=new Paciente();
         pac.setId(101234455);
-        pac.setTipoId("Cedula de ciudadania");
-        servicioPacientes.registrarNuevoPaciente(pac);
-        assertEquals(sizeClientes+1,servicioPacientes.consultarPacientes().size());
+        pac.setTipoId("CC");
+        factory.registrarNuevoPaciente(pac);
+        assertEquals(sizeClientes+1,factory.consultarPacientes().size());
     }
     
 }
