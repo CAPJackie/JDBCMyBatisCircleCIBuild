@@ -1,25 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-<<<<<<< HEAD
-    <groupId>edu.eci.arsw</groupId>
-    <artifactId>CitasMedicasPersistence</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-    
-    
-    <dependencies>
-        
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.36</version>
-=======
 
     <groupId>com.mycompany</groupId>
     <artifactId>tdd-webapp-base-nodb</artifactId>
@@ -83,12 +64,10 @@
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-guice</artifactId>
             <version>3.4</version>
->>>>>>> mybatis-persistence
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-<<<<<<< HEAD
             <version>3.4.5</version>
         </dependency>
         <dependency>
@@ -111,7 +90,6 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
             <type>zip</type>
-=======
             <version>3.2.2</version>
         </dependency>
 
@@ -176,14 +154,11 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.191</version>
->>>>>>> mybatis-persistence
         </dependency>
         
     </dependencies>
     
-<<<<<<< HEAD
 </project>
-=======
     <reporting>
         <plugins>
             
@@ -391,4 +366,3 @@
     
 
 </project>
->>>>>>> mybatis-persistence
