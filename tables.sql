@@ -22,4 +22,8 @@ CREATE TABLE `CM_CONSULTAS` (
   `PACIENTES_id` int(11) NOT NULL DEFAULT '0',
   `PACIENTES_tipo_id` varchar(2) NOT NULL DEFAULT 'cc',
   PRIMARY KEY (`idCONSULTAS`)
+<<<<<<< HEAD
   ) 
+=======
+  ) 
+>>>>>>> mybatis-persistence

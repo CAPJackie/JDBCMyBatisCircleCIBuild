@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head></h:head>
+
+    <h:body>
+        <p:layout style="min-width:400px;min-height:200px;">
+           
+            <p:layoutUnit position="west" resizable="true" size="800" minSize="200" maxSize="1000">
+                <h:outputLabel  value="CITAS DEL PACIENTE" style="font-weight:bold" />
+                <p:dataTable var="tablaDeCitas" value="#{HistorialPacientes.getCitasPaciente(HistorialPacientes.pacienteActual) }">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{tablaDeCitas.id}" />
+                    </p:column>
+                    <p:column headerText="HORA Y FECHA">
+                        <h:outputText value="#{tablaDeCitas.fechayHora}" />
+                    </p:column>
+                    <p:column headerText="Resumen">
+                        <h:outputText value="#{tablaDeCitas.resumen}" />
+                    </p:column>
+                    <p:column headerText="Costo">
+                        <h:outputText value="#{tablaDeCitas.costo}" />
+                    </p:column>
+                </p:dataTable> 
+            </p:layoutUnit>
+            
+            
+            <h:form>
+            <p:layoutUnit position="center" resizable="true" size="800" minSize="200" maxSize="1000">
+                <h:outputText value="REGISTRO DE UNA NUEVA CITA" style="font-weight:bold"  />
+                <h:panelGrid columns="2" cellpadding="10">
+                <p:outputLabel for="datetime" value="Fecha y hora de la cita:" />
+                <p:calendar id="datetime" value="#{HistorialPacientes.fechaYHoraNueva}" pattern="MM/dd/yyyy HH:mm:ss" />
+                <h:outputText value="Resumen de la cita: " />
+                <p:inputText id="focus1" title="Dígite la razón de la cita:" size="35" value="#{HistorialPacientes.resumenCitaNueva}" />
+                <h:outputLabel for="prefix" value="Precio: " />
+                <p:spinner id="prefix" value="#{HistorialPacientes.costoNuevo}" prefix="$" min="0"  />         
+                </h:panelGrid>
+                <p:commandButton value="Registrar Cita" id="nonAjax" actionListener="#{HistorialPacientes.registrarConsultaAPaciente()}" update="@all" ajax="false" />
+                
+            </p:layoutUnit>
+            </h:form>
+            
+            
+    </p:layout>
+    </h:body>
+
+</html>

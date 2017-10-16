@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml "
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head></h:head>
+    <h:body>
+        <h:form>
+            <p:growl id="msgs" showDetail="true" />
+            
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel value="ID:"/>
+                <p:inputText  value = "#{HistorialPacientes.idPaciente}"/>
+                
+                <p:outputLabel value="TipoId:"/>
+                <p:inputText  value = "#{HistorialPacientes.tipoIdPaciente}"/>
+                
+                <p:outputLabel value="Nombre:"/>
+                <p:inputText  value = "#{HistorialPacientes.nombrePaciente}"/>
+                
+                <p:outputLabel for="calendario" value="Fecha de nacimiento:" />
+                <p:calendar id="calendario" value="#{HistorialPacientes.fechaNacimientoCliente}" locale="de" navigator="true" pattern="yyyy-MMM-dd" />
+                
+            
+                
+                <p:outputLabel for="console" value="EPS:" />
+                <p:selectOneMenu id="console" value="#{HistorialPacientes.epsCliente}" style="width:125px">
+                    <f:selectItems value ="#{HistorialPacientes.servicepacientes.obtenerEPSsRegistradas()}" var="epsCliente" itemValue="#{epsCliente.nombre}" itemLabel="#{epsCliente.nombre}"/>
+                </p:selectOneMenu>
+                
+                <p:commandButton value="Enviar" id="nonAjax" actionListener="#{HistorialPacientes.registrarPaciente()}" ajax="false" />
+                <p:outputLabel value="" />
+                <p:outputLabel value="" />
+                
+                
+                
+                
+                
+            <h:form id="form">
+                <p:dataTable id="listadoC" var="paciente" value="#{HistorialPacientes.servicepacientes.consultarPacientes()}" selection="#{HistorialPacientes.pacienteActual}" rowKey="#{paciente.id}">
+                <f:facet name="header">
+                    Listado de pacientes
+                </f:facet>
+                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                <p:column headerText="Id">
+                    <h:outputText value="#{paciente.id}" />
+                </p:column>
+                <p:column headerText="TipoId">
+                    <h:outputText value="#{paciente.tipoId}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{paciente.nombre}" />
+                </p:column>
+                <p:column headerText="Eps">
+                    <h:outputText value="#{paciente.eps.nombre}" />
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton process="listadoC" value="Enviar" id="nonAjax" action="#{HistorialPacientes.irARegistroDeConsultas()}" ajax="false" />
+                </f:facet>
+                </p:dataTable>
+            </h:form>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
