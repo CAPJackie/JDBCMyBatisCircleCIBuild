@@ -89,9 +89,7 @@ public class MyBATISExample {
     public static void registrarNuevoPaciente(PacienteMapper pmap, Paciente p){
         pmap.insertarPaciente(p);
         
-<<<<<<< HEAD
-        Consulta c = new Consulta(new Date(2017,10,12),"Jaquecas muy fuertes, sintomas de migraña", 56000);
-=======
+
         Iterator<Consulta> consultas = p.getConsultas().iterator();
         while(consultas.hasNext()){
            Consulta c = consultas.next();
@@ -102,7 +100,6 @@ public class MyBATISExample {
         
         
         /*Consulta c = new Consulta(new Date(2017,10,12),"Jaquecas muy fuertes, sintomas de migraña", 56000);
->>>>>>> mybatis-persistence
         Consulta c2 = new Consulta(new Date(2018,01,05),"Cancer", 100000);
         Consulta c3 = new Consulta(new Date(2018,02,20),"Ya puedo sentir la demencia que se esta viniendo", 1234565);
         
@@ -112,15 +109,7 @@ public class MyBATISExample {
         
         p.getConsultas().add(c);
         p.getConsultas().add(c2);
-<<<<<<< HEAD
-        p.getConsultas().add(c3);
-        
-    }
-=======
         p.getConsultas().add(c3);*/
-
-        
->>>>>>> mybatis-persistence
     
     
     /**
